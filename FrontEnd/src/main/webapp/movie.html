@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    </head>
+    <body>
+
+        <div id='table'>
+
+        </div>
+        <script>
+            let movieData;
+            fetch('http://localhost:8080/MovieUserRest/resources/api/listAllMovies')
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        movieData = data;
+                        //console.log(movieData[0].movietitle)
+                        displayList(movieData);
+                    })
+
+            function getDataById(e) {
+                let userId = document.getElementById('id').value;
+                fetch(`http://localhost:8080/MovieUserRest/resources/api/getMovieById/${userId}`)
+                        .then(response => {
+                            return response.json();
+                        })
+                        .then(data => {
+                            movieData = data;
+                            displayObjectList(movieData);
+                        })
+            }
+
+
+            function displayList(md) {
+                console.log(md)
+                document.getElementById('table').innerHTML = '';
+
+                var htmlTable = "<table class=\"table table-striped table-dark\">";
+                htmlTable += "<thead><tr><th scope=\"col\">#</th><th scope=\"col\">Title</th><th scope=\"col\">Genre</th><th scope=\"col\">Rating</th><th scope=\"col\">Release Date</th>\n\
+            <th><input type='text' name='id' id='id' placeholder='Search By ID'><input type='submit' id='find' name='find' value='FIND' onClick='getDataById()'></th></tr></thead>"
+                htmlTable += "<tbody><tr>";
+
+                for (var i = 0; i < md.length; i++) {
+                    console.log("IN loop");
+                    htmlTable += "<th scope=\"row\">" + md[i].moiveid + "</td>";
+                    htmlTable += "<td>" + md[i].movietitle + "</td>";
+                    htmlTable += "<td>" + md[i].moviegenre + "</td>";
+                    htmlTable += "<td>" + md[i].movierating + "</td>";
+                    htmlTable += "<td>" + md[i].moviereleasedate + "</td>";
+                }
+
+                htmlTable += "</tbody></html>";
+                document.getElementById('table').innerHTML = htmlTable;
+                console.log(htmlTable);
+            }
+
+            function displayObjectList(md) {
+                console.log(md)
+                document.getElementById('table').innerHTML = '';
+
+                var htmlTable = "<table class=\"table table-striped table-dark\">";
+                htmlTable += "<thead><tr><th scope=\"col\">#</th><th scope=\"col\">Title</th><th scope=\"col\">Genre</th><th scope=\"col\">Rating</th><th scope=\"col\">Release Date</th>\n\
+            <th><input type='text' name='id' id='id' placeholder='Search By ID'><input type='submit' id='find' name='find' value='FIND' onClick='getDataById()'></th></tr></thead>"
+                htmlTable += "<tbody><tr>";
+                htmlTable += "<th scope=\"row\">" + md.moiveid + "</td>";
+                htmlTable += "<td>" + md.movietitle + "</td>";
+                htmlTable += "<td>" + md.moviegenre + "</td>";
+                htmlTable += "<td>" + md.movierating + "</td>";
+                htmlTable += "<td>" + md.moviereleasedate + "</td>";
+
+                htmlTable += "</tbody></html>";
+                document.getElementById('table').innerHTML = htmlTable;
+                console.log(htmlTable);
+            }
+
+
+
+
+        </script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>        
+    </body>
+</html>
